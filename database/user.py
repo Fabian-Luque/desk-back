@@ -6,7 +6,6 @@ user_collecion = User
 
 async def find_all_users() -> List[User]:
     users = await user_collecion.all().to_list()
-    print(users)
     return users
 
 async def insert_one(new_user: User) -> User:
@@ -35,3 +34,8 @@ async def delete(id: PydanticObjectId) -> bool:
     if user:
         await user.delete()
         return True
+
+async def find_one_by_email(email: str) -> User:
+    user = await user_collecion.find_one({"email": email})
+    if user:
+        return user

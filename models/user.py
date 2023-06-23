@@ -33,6 +33,21 @@ class UpdateUserModel(BaseModel):
             }
         }
 
+
+class ResponseUser(BaseModel):
+    id: Optional[str]
+    name: Optional[str]
+    email: Optional[EmailStr]
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "id": "1231231231",
+                "name": "Abdulazeez Abdulazeez Adeshina",
+                "email": "abdul@school.com",
+            }
+        }
+
 class Response(BaseModel):
     status_code: int
     response_type: str

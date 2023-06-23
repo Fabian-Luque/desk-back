@@ -8,7 +8,7 @@ from models.user import User
 class Settings(BaseSettings):
     # database configuration
     DATABASE_URL: Optional[str] = 'mongodb://localhost:27017'
-    
+
     class Config:
         env_file = ".env.dev"
         orm_mode = True

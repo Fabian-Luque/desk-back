@@ -1,11 +1,14 @@
 import logging
 from fastapi import FastAPI
 
+from config.db import initiate_database
+
 from routes.user import user
+from routes.auth import auth
+
 from utils.app_exceptions import AppExceptionCase
 from docs import tags_metadata
 from utils.app_exceptions import app_exception_handler
-from config.db import initiate_database
 
 logging.config.fileConfig
 logging.config.fileConfig('config/logging.conf', disable_existing_loggers=False)
@@ -29,3 +32,4 @@ async def custom_app_exception_handler(request, e):
 
 
 app.include_router(user)
+app.include_router(auth)
