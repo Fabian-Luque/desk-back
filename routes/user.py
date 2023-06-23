@@ -10,7 +10,7 @@ from utils.deps import get_current_user
 user = APIRouter()
 
 
-@user.get("/users", dependencies=[Depends(get_current_user)], response_model=list[ResponseUser], tags=["users"])
+@user.get("/users", response_model=list[ResponseUser], tags=["users"])
 async def find_all_users():
     result = await UserService().find_all_users()
     return handle_result(result)
@@ -22,18 +22,18 @@ async def create_user(user: User):
     return handle_result(result)
 
 
-@user.get("/users/{id}", response_model=ResponseUser, tags=["users"])
-async def find_user(id: str, me = Depends(get_current_user)):
+@user.get("/users/{id}", dependencies=[Depends(get_current_user)], response_model=ResponseUser, tags=["users"])
+async def find_user(id: str):
     result = await UserService().find_one(id)
     return handle_result(result)
 
 
-@user.put("/users/{id}", response_model=ResponseUser, tags=["users"])
+@user.put("/users/{id}", dependencies=[Depends(get_current_user)], response_model=ResponseUser, tags=["users"])
 async def update_user(id: str, user: User):
     result = await UserService().update_user(id, user)
     return handle_result(result)
 
-@user.delete("/users/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["users"])
+@user.delete("/users/{id}", dependencies=[Depends(get_current_user)], status_code=status.HTTP_204_NO_CONTENT, tags=["users"])
 async def delete_user(id: str):
     await UserService().delete(id)
     return Response(status_code=HTTP_204_NO_CONTENT)
